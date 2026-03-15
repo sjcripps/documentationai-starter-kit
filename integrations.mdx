@@ -1,0 +1,186 @@
+---
+title: Integrations and Setup
+description: Connect EzBiz Services to external tools for seamless CRM tracking, payments, and calendars to enhance your workflow.
+---
+
+## Integrations Overview
+
+EzBiz Services integrates with popular tools to automate your front office. Connect payments via Stripe, sync calendars with Google Calendar, manage leads in your CRM, set up webhooks for custom apps, and link review platforms for automated feedback collection.
+
+<Columns cols={3}>
+  <Card title="Stripe Payments" icon="credit-card" href="#stripe">
+    Accept payments directly through automated scheduling calls.
+  </Card>
+  <Card title="Google Calendar" icon="calendar" href="#google-calendar">
+    Sync appointments from incoming calls to your calendar.
+  </Card>
+  <Card title="CRM & Webhooks" icon="database" href="#crm-webhooks">
+    Export leads and trigger custom workflows.
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Review your EzBiz dashboard settings before starting. Ensure you have admin access to connected accounts.
+</Callout>
+
+## Stripe Payment Integration
+
+Link Stripe to collect deposits during scheduling calls. EzBiz prompts callers for card details and confirms payments instantly.
+
+<Steps>
+  <Step title="Create Stripe Account" icon="credit-card">
+    Sign up at [stripe.com](https://stripe.com) and obtain your API keys from the dashboard.
+  </Step>
+  <Step title="Add Keys to EzBiz" icon="settings">
+    Navigate to EzBiz Dashboard > Integrations > Stripe. Paste your `{STRIPE_SECRET_KEY}` and `{STRIPE_PUBLISHABLE_KEY}`.
+  </Step>
+  <Step title="Configure Products" icon="shopping-cart">
+    Create Stripe products for services like "Deposit - Plumbing Visit". Map them in EzBiz call scripts.
+  </Step>
+  <Step title="Test Payment Flow" icon="play">
+    Use Stripe test mode. Call your EzBiz number and book a test appointment.
+  </Step>
+</Steps>
+
+<Request tabs="cURL" show-lines="true">
+```bash
+curl https://api.stripe.com/v1/payment_intents \
+  -u sk_test_YOUR_STRIPE_SECRET_KEY: \
+  -d amount=2000 \
+  -d currency=usd \
+  -d "metadata[ezbiz_call_id]"=call_12345
+```
+</Request>
+
+## Google Calendar Synchronization
+
+Sync call-scheduled appointments to Google Calendar automatically. Supports two-way sync for updates and cancellations.
+
+<Tabs>
+  <Tab title="OAuth Setup" icon="key">
+    <Steps>
+      <Step title="Enable API">
+        Go to [Google Cloud Console](https://console.cloud.google.com). Create a project and enable Calendar API.
+      </Step>
+      <Step title="Get Credentials">
+        Download OAuth 2.0 credentials. Add client ID and secret to EzBiz Integrations > Calendar.
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Event Mapping" icon="calendar">
+    Map call data fields:
+    
+    | EzBiz Field | Google Field |
+    |-------------|--------------|
+    | Caller Name | Event Summary |
+    | Service Type | Event Description |
+    | Scheduled Time | Event Start/End |
+    
+    Test by scheduling via phone.
+  </Tab>
+</Tabs>
+
+## CRM Lead Import/Export
+
+Export call leads to CRMs like HubSpot or Salesforce. Import existing contacts for personalized call handling.
+
+<Expandable title="HubSpot Integration" default-open="true">
+  Use Zapier for no-code setup:
+  
+  1. Create a Zap with EzBiz "New Lead" trigger.
+  2. Action: "Create Contact" in HubSpot.
+  3. Map fields: phone to `{caller_phone}`, notes to `{call_transcript}`.
+</Expandable>
+
+<Expandable title="Custom CSV Export">
+  Download leads as CSV from EzBiz Reports. Columns include ID, name, phone, timestamp.
+</Expandable>
+
+## Webhook Configuration
+
+Set up webhooks to send real-time call data to your custom apps. Receive payloads on new calls, bookings, or messages.
+
+<ParamField path="webhook_url" param-type="string" required="true">
+  Your endpoint URL, e.g., `https://your-app.com/ezbiz-webhook`.
+</ParamField>
+
+<ParamField header="X-Ezbiz-Signature" param-type="string" required="true">
+  HMAC signature for verification using your `{WEBHOOK_SECRET}`.
+</ParamField>
+
+<Response show-lines="false">
+```json
+{
+  "event": "call.completed",
+  "call_id": "call_12345",
+  "caller_phone": "+16015525990",
+  "transcript": "Customer needs plumbing service tomorrow.",
+  "booking": {
+    "time": "2024-10-20T14:00:00Z",
+    "service": "Plumbing Repair"
+  }
+}
+```
+</Response>
+
+<CodeGroup tabs="Node.js,Python">
+```javascript
+const crypto = require('crypto');
+
+app.post('/ezbiz-webhook', (req, res) => {
+  const signature = req.headers['x-ezbiz-signature'];
+  const payload = JSON.stringify(req.body);
+  const expected = crypto
+    .createHmac('sha256', process.env.WEBHOOK_SECRET)
+    .update(payload)
+    .digest('hex');
+  
+  if (signature === `sha256=${expected}`) {
+    console.log('Verified:', req.body);
+    res.status(200).send('OK');
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+});
+```
+
+```python
+import hmac
+import hashlib
+from flask import Flask, request
+
+app = Flask(__name__)
+SECRET = 'your-webhook-secret'
+
+@app.route('/ezbiz-webhook', methods=['POST'])
+def webhook():
+    signature = request.headers.get('X-Ezbiz-Signature')
+    payload = request.get_data()
+    
+    expected = hmac.new(
+        SECRET.encode(), payload, hashlib.sha256
+    ).hexdigest()
+    
+    if signature == f'sha256={expected}':
+        print('Verified:', request.json)
+        return 'OK', 200
+    return 'Unauthorized', 401
+```
+</CodeGroup>
+
+## Third-Party Review Platforms
+
+Link Google My Business or Yelp for automated review requests post-service.
+
+<Columns cols={2}>
+  <Card title="Google Reviews" icon="star" horizontal>
+    Send SMS review links after job completion. Track ratings in EzBiz dashboard.
+  </Card>
+  <Card title="Yelp Integration" icon="award" horizontal>
+    Use Zapier to push completed jobs to Yelp for review prompts.
+  </Card>
+</Columns>
+
+<Callout kind="tip">
+  Start with Stripe and Calendar for immediate impact. Test webhooks in staging before production.
+</Callout>

@@ -1,0 +1,123 @@
+---
+title: Introduction to EzBiz Services
+description: Discover EzBiz Services, the automated front office solution designed for service businesses to handle calls, scheduling, follow-ups, and more without manual effort.
+---
+
+<Callout kind="info" title="Starter Kit Template">
+  This documentation was generated as a starter kit template based on your brand. Please review and customize the content to accurately reflect your product's features, APIs, and capabilities.
+</Callout>
+
+## Overview
+
+EzBiz Services automates your entire front office, handling calls, texts, scheduling, follow-ups, reviews, and reporting. You focus on delivering great service while the system manages customer interactions 24/7. Built specifically for service businesses, it prevents missed opportunities and scales with your growth.
+
+No contracts, a 30-day money-back guarantee, and live setup in 24 hours make it risk-free to start.
+
+## Key Benefits
+
+Service businesses lose thousands monthly from unanswered calls. EzBiz Services captures every lead:
+
+- **62%** of calls go unanswered—get instant text-backs to recover them.
+- **$2,000+** average job value saved per recovered call.
+- **85%** of voicemail callers switch competitors—instant notifications keep you in control.
+
+<Callout kind="tip">
+  Every missed call costs real revenue. EzBiz handles it automatically so you never lose a job.
+</Callout>
+
+## Core Features
+
+<Columns cols={3}>
+  <Card title="AI Receptionist" icon="phone" href="#ai-receptionist">
+    Answers calls anytime with natural conversations, books appointments, and sends notifications.
+  </Card>
+  <Card title="Auto Scheduling" icon="calendar" href="#scheduling">
+    Integrates with your calendar for seamless bookings via SMS or voice.
+  </Card>
+  <Card title="Follow-Ups & Reviews" icon="message-circle" href="#followups">
+    Automatic texts for confirmations, reminders, and Google review requests.
+  </Card>
+</Columns>
+
+## Plans and Pricing
+
+Choose the plan that fits your business. All include core automation features.
+
+<Tabs>
+  <Tab title="Starter" icon="star">
+    **$97/month**
+
+    - Up to 100 calls/month
+    - Basic AI receptionist
+    - SMS notifications
+    - Appointment reminders
+
+    Perfect for solo operators or small teams.
+  </Tab>
+  <Tab title="Growth" icon="trending-up">
+    **$197/month**
+
+    - Up to 500 calls/month
+    - Advanced scheduling
+    - Review automation
+    - Basic reporting
+
+    Ideal for growing service businesses.
+  </Tab>
+  <Tab title="Enterprise" icon="users">
+    **$497/month**
+
+    - Unlimited calls
+    - Custom AI flows
+    - Full analytics dashboard
+    - Priority support
+
+    For high-volume operations.
+  </Tab>
+</Tabs>
+
+## Quick Start
+
+Get up and running in minutes.
+
+<Steps>
+  <Step title="Sign Up" icon="user-plus">
+    Create your account at `https://dashboard.example.com/signup` and choose your plan.
+  </Step>
+  <Step title="Configure Phone" icon="phone">
+    Forward your business number to the EzBiz system via the dashboard.
+  </Step>
+  <Step title="Set Up Integrations" icon="settings">
+    Connect your calendar and enable webhooks for notifications.
+
+````javascript
+// Example webhook for incoming calls
+app.post('/webhook/calls', (req, res) => {
+  const { callerNumber, transcription } = req.body;
+  // Send SMS alert
+  sendSMS(`New call from ${callerNumber}: ${transcription}`);
+  res.status(200).send('OK');
+});
+````
+  </Step>
+  <Step title="Test & Go Live" icon="play">
+    Call your demo line at `(601) 552-5990` to hear it in action. Go live immediately.
+  </Step>
+</Steps>
+
+## Next Steps
+
+<Columns cols={2}>
+  <Card title="Quickstart Guide" icon="book-open" href="/quickstart">
+    Detailed setup instructions.
+  </Card>
+  <Card title="API Reference" icon="code" href="/authentication">
+    Integrate programmatically.
+  </Card>
+  <Card title="Configuration" icon="settings" href="/configuration">
+    Customize your flows.
+  </Card>
+  <Card title="Changelog" icon="git-branch" href="/changelog">
+    Stay updated on releases.
+  </Card>
+</Columns>

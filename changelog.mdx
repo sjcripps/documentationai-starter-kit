@@ -1,0 +1,111 @@
+---
+title: Changelog
+description: Stay updated with the latest releases, feature additions, and improvements in EzBiz Services.
+---
+
+## Recent Updates
+
+Stay informed about new features, improvements, and fixes in EzBiz Services. We release updates regularly to enhance your automated front office experience, including AI call handling, scheduling, and reporting.
+
+<Callout kind="info">
+  Check your current version in the dashboard under **Settings > About**. Upgrade automatically on the next restart or manually via the admin panel.
+</Callout>
+
+<Update label="2024-10-15" description="v1.3.0" tags={["feature", "improvement"]}>
+## New Features
+
+- Added AI-powered follow-up texts for missed calls, automatically scheduling callbacks based on customer availability.
+- Introduced review request automation: Send Google review links after completed jobs.
+
+## Improvements
+
+- Enhanced call transcription accuracy by 20% with new voice models.
+- Faster dashboard loading for reporting, now under `2s` for large datasets.
+
+## Bug Fixes
+
+- Fixed SMS delivery delays during peak hours.
+- Resolved scheduling conflicts when multiple technicians are assigned.
+</Update>
+
+<Update label="2024-09-20" description="v1.2.0" tags={["feature", "bugfix", "security"]}>
+## New Features
+
+- New appointment reminder sequences: 24-hour and 1-hour SMS notifications.
+- Integrated Stripe payment links in confirmation texts for deposits.
+
+## Bug Fixes
+
+- Corrected call forwarding issues for international numbers.
+- Patched potential webhook exposure in custom integrations.
+
+## Security
+
+- Updated encryption for stored call recordings.
+</Update>
+
+<Update label="2024-08-10" description="v1.1.0" tags={["breaking", "feature"]}>
+## New Features
+
+- Launched multi-location support: Handle calls for multiple business sites.
+- Custom IVR menus for routing calls to specific services.
+
+## Breaking Changes
+
+- Deprecated legacy SMS provider. Migrate to new provider via dashboard (automatic for most users).
+
+## Improvements
+
+- Reduced no-show rates by 15% with smarter reminder logic.
+</Update>
+
+## Upgrade Process
+
+Follow these steps to ensure smooth updates.
+
+<Steps>
+  <Step title="Backup Data" icon="database">
+    Export your call logs and schedules from the dashboard.
+  </Step>
+  <Step title="Check Compatibility" icon="check-circle">
+    Review release notes for breaking changes.
+  </Step>
+  <Step title="Apply Update" icon="download">
+    Updates apply automatically. Restart services if needed:
+    
+````bash
+# Restart EzBiz agent
+sudo systemctl restart ezbiz-agent
+````
+    
+  </Step>
+  <Step title="Verify" icon="zap">
+    Test a demo call at `(601) 552-5990`.
+  </Step>
+</Steps>
+
+## Upcoming Changes
+
+<Expandable title="v1.4.0 Preview (Expected November 2024)" default-open="true">
+- Real-time technician dispatch via SMS.
+- Advanced analytics dashboard with job win/loss tracking.
+- Beta API for custom integrations (docs forthcoming).
+</Expandable>
+
+## Resources
+
+<Columns cols={3}>
+  <Card title="Dashboard" icon="monitor" href="https://dashboard.ezbizservices.com">
+    Access your account and view updates.
+  </Card>
+  <Card title="Support" icon="help-circle" href="https://ezbizservices.com/support">
+    Contact us for upgrade assistance.
+  </Card>
+  <Card title="Status" icon="activity" href="https://status.ezbizservices.com">
+    Live system status and incidents.
+  </Card>
+</Columns>
+
+<Callout kind="tip">
+  Have feedback on these changes? [Schedule a call](https://cal.com/sj-services/30min) or email support@ezbizservices.com.
+</Callout>
